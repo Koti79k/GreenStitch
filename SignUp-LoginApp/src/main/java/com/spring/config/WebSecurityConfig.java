@@ -51,10 +51,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/login", "/signUp").permitAll().anyRequest()
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/login", "/signUp", "/h2-console/**").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+		// Allow frames in the same origin for the H2 console
+		httpSecurity.headers().frameOptions().sameOrigin();
+		
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }

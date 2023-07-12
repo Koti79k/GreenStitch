@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.model.JwtRequest;
@@ -29,12 +31,12 @@ public class UserController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@PostMapping("/signup")
+	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public ResponseEntity saveUser(@RequestBody User user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 
-	@PostMapping("/login")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
